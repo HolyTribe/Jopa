@@ -18,6 +18,7 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+    'apps.users',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -30,6 +31,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'system.urls'
+
+# Настройки связанные с пользователем
+AUTH_USER_MODEL = 'users.User'
+
 
 TEMPLATES = [
     {
