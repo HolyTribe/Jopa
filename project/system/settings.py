@@ -21,6 +21,9 @@ INSTALLED_APPS = [
     'apps.tags',
     'apps.users',
 
+    # Other apps
+    'sorl.thumbnail',
+
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
