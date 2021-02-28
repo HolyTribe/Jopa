@@ -1,3 +1,10 @@
-from django.contrib import admin
+from django.contrib.admin.sites import AdminSite
 
-# Register your models here.
+
+class CustomAdmin(AdminSite):
+    """Кастомная админка сайта"""
+    site_header = 'Сайт хеадер'
+    site_title = 'Сайт тайтл'
+
+
+site = CustomAdmin()
