@@ -18,6 +18,9 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+
+    # Other apps
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [

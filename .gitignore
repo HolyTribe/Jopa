@@ -1,9 +1,14 @@
 .idea
 conf/venv
+project/static
+project/node_modules
+*/package-lock.json
 
-/migrations/
-!/migrations
-!/migrations/__init__.py
 
-**/__pycache__
-**/__pycache__/*
+/**/__pycache__/*
+/**/__pycache__
+media
+
+/**/migrations/*
+!/**/migrations
+!/**/migrations/__init__.py
