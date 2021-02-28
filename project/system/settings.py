@@ -96,9 +96,7 @@ MEDIA_URL = "/media/"
 
 STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = BASE_DIR / ".." / "media"
-STATICFILES_DIRS = [
-    BASE_DIR / "assets",
-]
+
 
 if DEBUG:
     INSTALLED_APPS += [

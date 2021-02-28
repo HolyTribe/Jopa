@@ -1,0 +1,2 @@
+
+import '../components/component1';

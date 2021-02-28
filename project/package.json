@@ -18,5 +18,8 @@
   "homepage": "https://github.com/HolyTribe/jopa#readme",
   "dependencies": {
     "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.14"
   }
 }
