@@ -1,39 +1,38 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import TemplateView
+import re
+
+from django.urls import reverse_lazy
+from django.views.generic import FormView
 from django.utils.text import slugify
 
 from apps.tags.forms import TagCreateForm
 from apps.tags.models import Tag
 from unidecode import unidecode
 
+
 MAX_ATTEMPTS_TO_CREATE = 2
 
 
-class TagCreateView(TemplateView):
+def get_slug(title):
+    unidecode_title = unidecode(title)
+    return slugify(re.sub(r'\s|[^a-zA-Z]', '', unidecode_title))
+
+
+class TagCreateView(FormView):
     template_name = 'tags/tag_create.html'
+    form_class = TagCreateForm
+    success_url = reverse_lazy('tags:create')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = TagCreateForm()
-        return context
-
-    def post(self, *args, **kwargs):
-        form = TagCreateForm(self.request.POST)
-
-        if form.is_valid():
-            if Tag.objects.filter(slug=form.cleaned_data.get('slug')).exists():
-                tag = Tag.objects.filter(slug=form.cleaned_data.get('slug'))[0]
-                tag.users.add(self.request.user)
-                if tag.users.count() >= MAX_ATTEMPTS_TO_CREATE:
-                    tag.active = True
-                    tag.save()
-            else:
-                tag = form.save()
-                tag.users.add(self.request.user)
-                unidecode_title = unidecode(tag.title)
-                tag.slug = slugify(unidecode_title)
-                tag.save()
-            return redirect(reverse('tag_create'))
+    def form_valid(self, form):
+        slug = get_slug(form.cleaned_data.get('title'))
+        tag = Tag.objects.filter(slug=slug).first()
+        if tag:
+            tag.users.add(self.request.user)
+            if tag.users.count() >= MAX_ATTEMPTS_TO_CREATE:
+                tag.active = True
+                tag.save(update_fields=['active'])
         else:
-            return render(self.request, 'tags/tag_create.html', context={'form': form})
+            tag = form.save(commit=False)
+            tag.slug = slug
+            tag.save()
+            tag.users.add(self.request.user)
+        return super().form_valid(form)
