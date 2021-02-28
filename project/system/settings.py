@@ -35,11 +35,10 @@ ROOT_URLCONF = 'system.urls'
 # Настройки связанные с пользователем
 AUTH_USER_MODEL = 'users.User'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,3 +108,6 @@ if DEBUG:
     INTERNAL_IPS = [
         '127.0.0.1',
     ]
+
+# Пока что будет писать в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
