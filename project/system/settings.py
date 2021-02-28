@@ -18,6 +18,7 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+    'apps.tags',
 ]
 
 MIDDLEWARE = [
