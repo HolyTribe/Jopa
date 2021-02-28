@@ -4,7 +4,7 @@ from ..storage import HashedImageStorage, WebpStorage
 from ..libs.webp.compress import convert_to_webp
 from django.conf import settings
 from django.core.files import File
-from django.db.models.signals import post_save, post_delete, pre_delete
+from django.db.models.signals import post_save, pre_delete
 import os
 
 
