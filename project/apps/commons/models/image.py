@@ -31,6 +31,5 @@ def generate_webp(sender, instance, **kwargs):
             instance.save()
         del instance.PSAVED
     print(instance.image.name)
-
-
+    
 post_save.connect(generate_webp, sender=ImageModel)
