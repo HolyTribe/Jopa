@@ -6,7 +6,7 @@ SECRET_KEY = '7k0^pwc%q2&^t#nan4__fly2gq+y^k*6o9ypc4=dgp^8$otxip'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,8 +18,8 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+    'apps.users',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -32,10 +32,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'system.urls'
 
+# Настройки связанные с пользователем
+AUTH_USER_MODEL = 'users.User'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,3 +95,19 @@ MEDIA_URL = "/media/"
 
 STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = BASE_DIR / ".." / "media"
+STATICFILES_DIRS = [
+    BASE_DIR / "assets",
+]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+
+    INTERNAL_IPS = [
+        '127.0.0.1',
+    ]
+
+# Пока что будет писать в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
