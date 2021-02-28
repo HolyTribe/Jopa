@@ -18,7 +18,9 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+    'apps.tags',
     'apps.users',
+
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
