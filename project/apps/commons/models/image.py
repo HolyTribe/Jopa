@@ -2,7 +2,6 @@ from django.db import models
 from sorl.thumbnail import ImageField
 from ..storage import HashedImageStorage, WebpStorage
 from ..libs.webp.compress import convert_to_webp
-from pathlib import Path
 from django.conf import settings
 from django.core.files import File
 from django.db.models.signals import post_save
@@ -14,6 +13,10 @@ class ImageModel(models.Model):
     webp = ImageField('Webp изображение', blank=True, default="", storage=WebpStorage)
     alt = models.CharField('Альтернативный текст', max_length=120, blank=True, default="")
     upload_date = models.DateTimeField(verbose_name="Дата загрузки", auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Изображение"
+        verbose_name_plural = "Изображения"
 
 
 def generate_webp(sender, instance, **kwargs):
@@ -28,8 +31,9 @@ def generate_webp(sender, instance, **kwargs):
         with open(webp_path, 'rb') as f:
             instance.webp = File(f, webp_name)
             instance.PSAVED = True
-            instance.save()
+            instance.save(update_fields=['webp'])
         del instance.PSAVED
     print(instance.image.name)
-    
+
+
 post_save.connect(generate_webp, sender=ImageModel)
