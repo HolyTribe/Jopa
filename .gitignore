@@ -5,9 +5,9 @@ project/node_modules
 */package-lock.json
 
 
-/migrations/
-!/migrations
-!/migrations/__init__.py
-
 /**/__pycache__/*
 /**/__pycache__
+
+/**/migrations/*
+!/**/migrations
+!/**/migrations/__init__.py
