@@ -14,7 +14,10 @@ def upload_to(filename):
 
 
 class RewriteableStorageMixin(DefaultStorage):
-
+    """
+    Тут короче все отличия от дефолт сейва в том, что когда он видит, что файл
+    уже существует, то не пытается создать новый. Вместо этого просто чилит
+    """
     def _save(self, name, content):
         full_path = self.path(name)
         # Create any intermediate directories that do not exist.
