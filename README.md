@@ -1,1 +1,1 @@
-#Test
+[![Updates](https://pyup.io/repos/github/HolyTribe/jopa/shield.svg)](https://pyup.io/repos/github/HolyTribe/jopa/) [![Python 3](https://pyup.io/repos/github/HolyTribe/jopa/python-3-shield.svg)](https://pyup.io/repos/github/HolyTribe/jopa/)

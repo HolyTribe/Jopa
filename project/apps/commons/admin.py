@@ -1,3 +1,5 @@
+from django.contrib import admin
+from .models import ImageModel
 from django.contrib.admin.sites import AdminSite
 
 
@@ -8,3 +10,10 @@ class CustomAdmin(AdminSite):
 
 
 site = CustomAdmin()
+
+
+@admin.register(ImageModel, site=site)
+class ImageAdmin(admin.ModelAdmin):
+
+    readonly_fields = ['webp', 'upload_date']
+

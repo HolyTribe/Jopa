@@ -21,6 +21,9 @@ INSTALLED_APPS = [
     'apps.tags',
     'apps.users',
 
+    # Other apps
+    'sorl.thumbnail',
+
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -37,11 +40,10 @@ ROOT_URLCONF = 'system.urls'
 # Настройки связанные с пользователем
 AUTH_USER_MODEL = 'users.User'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,11 +98,14 @@ USE_TZ = False
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-STATIC_ROOT = BASE_DIR / "static"
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
+else:
+    # Работает ток на проде
+    STATIC_ROOT = BASE_DIR / "static"
 MEDIA_ROOT = BASE_DIR / ".." / "media"
-STATICFILES_DIRS = [
-    BASE_DIR / "assets",
-]
 
 if DEBUG:
     INSTALLED_APPS += [
