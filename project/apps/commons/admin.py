@@ -15,6 +15,5 @@ site = CustomAdmin()
 @admin.register(ImageModel, site=site)
 class ImageAdmin(admin.ModelAdmin):
 
-    readonly_fields = ['webp']
-
+    readonly_fields = ['webp', 'upload_date']
 
