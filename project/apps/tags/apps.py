@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class TagsConfig(AppConfig):
-    name = 'tags'
+    name = 'apps.tags'
+    verbose_name = 'Теги'

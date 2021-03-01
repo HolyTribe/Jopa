@@ -1,20 +1,10 @@
-import re
-
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from django.utils.text import slugify
 
-from apps.tags.forms import TagCreateForm
+from apps.tags.forms import TagCreateForm, get_slug
 from apps.tags.models import Tag
-from unidecode import unidecode
-
 
 MAX_ATTEMPTS_TO_CREATE = 2
-
-
-def get_slug(title):
-    unidecode_title = unidecode(title)
-    return slugify(re.sub(r'\s|[^a-zA-Z]', '', unidecode_title))
 
 
 class TagCreateView(FormView):
