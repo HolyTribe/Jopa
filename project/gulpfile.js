@@ -1,5 +1,6 @@
 //main
 const gulp = require('gulp');
+const replace = require('gulp-replace');
 
 //Помощь при разработке
 //Обновляет браузер, позволяет открывать проект на мобилке
@@ -20,6 +21,12 @@ const uglify = require('gulp-uglify-es').default;
 //CSS
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
+
+//sprite
+//Объединяет свг в спрайт
+const svgSprite = require('gulp-svg-sprite');
+//Удаляет лишние атры у свг
+const cheerio = require('gulp-cheerio');
 
 
 // Определяем логику работы Browsersync
@@ -50,7 +57,7 @@ function cssTask(done) {
 
 //Слушатель событий
 function watchTask(done) {
-    // browsersync(done);
+    browsersync(done);
     gulp.watch('src/css/**/*.scss', cssTask); //Вызывает функцию cssTask, если scss файл изменился
     gulp.watch('src/js/**/*.js', jsTask); //Вызывает функцию js, если js файл изменился
     gulp.watch('**/*.{scss,js,html}').on('change', browserSync.reload); //Смотрим изменения и перезагружаем браузер
@@ -88,4 +95,36 @@ function jsTask(done) {
     done()
 }
 
-gulp.task('default', gulp.parallel(cssTask, jsTask, watchTask))
+function svgTask(done) {
+    gulp.src('src/images/*.svg')
+        .pipe(cheerio({
+            run: function ($) {
+                $("[fill]").removeAttr("fill");
+                $("[clip]").removeAttr("clip");
+                $("[stroke]").removeAttr("stroke");
+                $("[mask]").removeAttr("mask");
+                $("[opacity]").removeAttr("opacity");
+                $("[width]").removeAttr("width");
+                $("[height]").removeAttr("height");
+                $("[class]").removeAttr("class");
+            },
+            parserOptions: {
+                xmlMode: true
+            }
+        }))
+        // У cheerio есть один баг — иногда он преобразовывает символ '>' в кодировку '&gt;'.
+        .pipe(replace("&gt;", ">"))
+        .pipe(svgSprite({
+                mode: {
+                    stack: {
+                        sprite: "../sprite.svg"  //sprite file name
+                    }
+                },
+            }
+        ))
+        .pipe(gulp.dest('static/images/'));
+    done()
+}
+
+
+gulp.task('default', gulp.parallel(cssTask, jsTask, svgTask, watchTask))
