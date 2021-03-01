@@ -29,6 +29,12 @@ class ImageModel(models.Model):
 
 
 def generate_webp(sender, instance, **kwargs):
+    """
+    Постсейв имаги. PSAVED используется чтобы не упасть
+    в рекурсию после сейва в пост-сейве.
+
+    Тут короче конверчу имагу в вебп !!!и сохраняю ее под хешем имаги!!!
+    """
     if hasattr(instance, 'PSAVED') or not instance.image:
         return
     webp_name = f"{instance.image.name.split('.')[0]}.webp"
@@ -45,6 +51,10 @@ def generate_webp(sender, instance, **kwargs):
 
 
 def delete(sender, instance, **kwargs):
+    """
+    Если не осталось объектов с такой имагой, то удаляю имагу.
+    Если в папке больше нет имаг, удаляется папка
+    """
     path = "/".join(os.path.join(settings.MEDIA_ROOT, instance.image.name).split('/')[:-1])
     if ImageModel.objects.filter(image=instance.image).count() < 2:
         instance.image.delete()
