@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'apps.commons',
     'apps.tags',
     'apps.users',
+    'apps.pages',
 
     # Other apps
     'sorl.thumbnail',
@@ -102,12 +103,6 @@ if DEBUG:
     STATICFILES_DIRS = [
         BASE_DIR / 'static'
     ]
-else:
-    # Работает ток на проде
-    STATIC_ROOT = BASE_DIR / "static"
-MEDIA_ROOT = BASE_DIR / ".." / "media"
-
-if DEBUG:
     INSTALLED_APPS += [
         'debug_toolbar',
     ]
@@ -116,3 +111,8 @@ if DEBUG:
     INTERNAL_IPS = [
         '127.0.0.1',
     ]
+else:
+    # Работает ток на проде
+    STATIC_ROOT = BASE_DIR / "static"
+
+MEDIA_ROOT = BASE_DIR / ".." / "media"
