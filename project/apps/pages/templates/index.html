@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
+{% endblock %}
+
 {% block content %}
-jopa
+    <div class="grid">
+    </div>
 {% endblock %}
 
 {% block scripts %}
-<link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
-<script src="{% static 'js/pages/index.js' %}"></script>
+    <script src="{% static 'js/pages/index.js' %}"></script>
 {% endblock %}

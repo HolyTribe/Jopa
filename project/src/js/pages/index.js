@@ -1,3 +1,3 @@
-import {test} from '../components/gallery/index'
+import galleryInit from '../components/gallery/index'
 
-window.test = test;
+galleryInit()
