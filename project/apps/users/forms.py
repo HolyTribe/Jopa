@@ -6,20 +6,16 @@ from apps.users.models import User
 class LoginForm(forms.Form):
     '''Представляет собой форму для логина да
     '''
-    email = forms.EmailField(
+    username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'type':'email',
-                'name':'email',
-                'placeholder':"Email"
+                'placeholder':"Username"
             }),
-            label="Email",
+            label="Login",
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'type':'password',
-                'name':"password",
                 'placeholder':'password'
             }
         ),
@@ -30,65 +26,37 @@ class LoginForm(forms.Form):
         fields = ['email', 'password']
 
 
-class PasswordResetForm(forms.Form):
+class PasswordChangeForm(forms.Form):
     '''Представляет собой форму смены
     пароля в личном кабинете
     '''
     old_password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'type':'password',
                 'name':"old_password",
-                'placeholder':'old_password'
+                'placeholder':'Старый пароль'
             }
         ),
-        label="Password"
+        label="Старый пароль"
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'type':'password',
                 'name':"password",
-                'placeholder':'password'
+                'placeholder':'Пароль'
             }
         ),
-        label="Password"
+        label="Новый пароль"
     )
     password_repeat = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                'type':'password',
                 'name':"password_repeat",
-                'placeholder':'repeat your password'
+                'placeholder':'Повторите новый пароль'
             }
         ),
-        label="Password"
+        label="Повторите новый пароль"
     )
     class Meta:
         model = User
         fields = ['password']
-
-
-class PasswordChangeForm(forms.Form):
-    '''Представляет собой форму ресета пароля
-    '''
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                'type':'password',
-                'name':"password",
-                'placeholder':'password'
-            }
-        ),
-        label="Password"
-    )
-    password_repeat = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                'type':'password',
-                'name':"password_repeat",
-                'placeholder':'repeat your password'
-            }
-        ),
-        label="Password"
-    )

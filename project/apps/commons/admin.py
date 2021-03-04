@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import ImageModel
 from django.contrib.admin.sites import AdminSite
+from apps.users.models import User
 
 
 class CustomAdmin(AdminSite):

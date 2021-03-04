@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from apps.users.forms import LoginForm, PasswordResetForm
+from apps.users.forms import LoginForm, PasswordChangeForm
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
@@ -16,9 +16,9 @@ class Login(generic.FormView):
     template_name = 'users/login.html'
 
     def form_valid(self, form):
-        email = form.cleaned_data['email']
+        username = form.cleaned_data['username']
         password = form.cleaned_data["password"]
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(self.request, user)
             return HttpResponseRedirect(reverse('users:profile'))
@@ -30,13 +30,7 @@ class Login(generic.FormView):
 
 
 class Profile(LoginRequiredMixin, generic.View):
-    '''Личный кабинет.\n
-    Пока что только так, потому что я нз, как ваще все будет
-    выглядеть в будущем.\n
-    lazy reverse потому что с обычным
-    вьюха не дружит, документация рассказывает об этом что-то\n
-    Но я не читал, я унгабунга
-    '''
+    '''Личный кабинет'''
     login_url = reverse_lazy('users:login')
     template_name = 'users/success.html'
 
@@ -48,21 +42,21 @@ class UserChangePassword(generic.FormView):
     '''Смена пароля,
     главное не забыть, что я сделал форму, а дата из поста.
     '''
-    form_class = PasswordResetForm
+    form_class = PasswordChangeForm
     success_url = reverse_lazy('users:profile')
     template_name = 'users/password_change.html'
 
-    # TODO: а нафик я форму делал, а потом беру дату из поста 
-    def post(self, request, *args, **kwargs):
+    def form_valid(self, form):
+        # succes - заготовка для жсонреспонсов
         success = True
-        old_password = request.POST.get('old_password', None)
-        new_password = request.POST.get('password', None)
-        new_password_repeat = request.POST.get('password_repeat', None)
+        old_password = form.cleaned_data['old_password']
+        new_password = form.cleaned_data['password']
+        new_password_repeat = form.cleaned_data['password_repeat']
         if not new_password == new_password_repeat:
             success = False
             return HttpResponseRedirect(reverse('users:invalid'))
         user = authenticate(
-            email=self.request.user.email,
+            username=self.request.user.username,
             password=old_password)
         if user is None:
             success = False
@@ -73,7 +67,7 @@ class UserChangePassword(generic.FormView):
             login(request, user)
             return HttpResponseRedirect(reverse('users:profile'))
 
-# TODO: Вот ето дропнуть, как только жсон
+# TODO: Дропнуть, после жсонреспонсов
 class InvalidView(generic.View):
     '''Эта вьюха, чтобы выкидывать ошибку,
     пока я не понял как работает галп
@@ -82,9 +76,3 @@ class InvalidView(generic.View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
-
-# TODO: Норм логаут сделать!!
-class LogoutView(generic.View):
-    def get(self, request):
-        logout(request)
-        return HttpResponseRedirect(reverse('users:login'))

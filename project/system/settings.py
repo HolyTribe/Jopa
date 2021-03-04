@@ -111,14 +111,10 @@ if DEBUG:
     INTERNAL_IPS = [
         '127.0.0.1',
     ]
-<<<<<<< HEAD
-
-# Пока что будет писать в консоль
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-=======
 else:
     # Работает ток на проде
     STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_ROOT = BASE_DIR / ".." / "media"
->>>>>>> 682fd79b16d22152b5d3c15b390a51ae44bebb70
+# Пока что будет писать в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

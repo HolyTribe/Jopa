@@ -1,5 +1,5 @@
 from django.urls import include, path
-from apps.users.views import Login, Profile, InvalidView, UserChangePassword, LogoutView
+from apps.users.views import Login, Profile, InvalidView, UserChangePassword
 from apps.users.forms import PasswordChangeForm
 from django.contrib.auth.views import (
     LogoutView,
@@ -11,18 +11,19 @@ from django.contrib.auth.views import (
 )
 from django.urls import reverse_lazy
 
-# TODO:Переопределить стандартные пути для шаблоново ресета, чтобы не хламить мейнтемплейты
+
 app_name = "users"
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('profile/', Profile.as_view(), name='profile'),
     # TODO: ДРОПНУТЬ!!!!!!
     path('invalid/', InvalidView.as_view(), name='invalid'),
-    path('profile/password-change',
+    path('profile/password-change/',
         UserChangePassword.as_view(),
         name='password-change'),
-    path('logout', LogoutView.as_view(), name='logout'),
-
+    path('logout', LogoutView.as_view(
+        template_name='registration/logout.html'
+    ), name='logout'),
     # Ресет пароля
     path('password/reset/',
         PasswordResetView.as_view(
@@ -43,7 +44,9 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(
             # не могу понять почему эта вещь кидает
             # __init__() got an unexpected keyword argument 'user'
-            # form_class=PasswordChangeForm,
+            # form_class=PasswordResetForm,
+            # Все еще не смог понять, в чем дело, оставил пока что просто шаблон
+            template_name='registration/password_reset_confirm.html',
             success_url=reverse_lazy('users:password_reset_complete')
             ),
         name="password_reset_confirm"),
