@@ -1,3 +1,9 @@
-import galleryInit from '../components/gallery/index'
+import '../components/gallery/index'
+import {utils} from '../components/tools/utils'
 
-galleryInit()
+let tools = {
+  utils,
+
+};
+
+window.$t = tools;

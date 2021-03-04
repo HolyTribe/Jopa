@@ -78,14 +78,16 @@ function jsTask(done) {
             module: {
                 rules: [
                     {
-                        loader: 'babel-loader',
-                        query: {
-                            presets: ['@babel/preset-env'],
-                            plugins: [
-                                ['@babel/plugin-proposal-class-properties'],
-                                ['@babel/plugin-transform-runtime'],
-                            ]
-                        },
+                       use: {
+							loader: 'babel-loader',
+							options: {
+								presets: ['@babel/preset-env'],
+								plugins: [
+								    '@babel/plugin-proposal-class-properties',
+                                    '@babel/plugin-transform-runtime'
+                                ]
+							}
+						}
                     },
                 ],
             },
