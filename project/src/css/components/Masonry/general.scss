@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid::after {
+  content: '';
+  flex-grow: 999999999;
+}
+
+.grid > figure {
+  margin: 5px;
+  position: relative;
+
+}
+
+.grid > figure > i {
+  display: block;
+}
+
+.grid > figure > img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  vertical-align: bottom;
+}
