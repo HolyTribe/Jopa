@@ -2,6 +2,7 @@ from django.urls import include, path
 from apps.users.views import Login, Profile, InvalidView, UserChangePassword, LogoutView
 from apps.users.forms import PasswordChangeForm
 from django.contrib.auth.views import (
+    LogoutView,
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,

@@ -23,12 +23,12 @@ class Login(generic.FormView):
         user = authenticate(email=email, password=password)
         if user is not None and user.is_active:
             login(self.request, user)
-            return HttpResponseRedirect(reverse('profile'))
+            return HttpResponseRedirect(reverse('users:profile'))
         else:
-            return HttpResponseRedirect(reverse('profile'))
+            return HttpResponseRedirect(reverse('users:invalid'))
     
     def form_invalid(self, form):
-        return HttpResponseRedirect(reverse('invalid'))
+        return HttpResponseRedirect(reverse('users:invalid'))
 
 
 class Profile(LoginRequiredMixin, generic.View):
@@ -39,7 +39,7 @@ class Profile(LoginRequiredMixin, generic.View):
     вьюха не дружит, документация рассказывает об этом что-то\n
     Но я не читал, я унгабунга
     '''
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy('users:login')
     template_name = 'users/success.html'
 
     def get(self, request, *args, **kwargs):
@@ -53,7 +53,7 @@ class UserChangePassword(generic.FormView):
     правда?)))))))))))))))))))
     '''
     form_class = PasswordResetForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('users:profile')
     template_name = 'users/password_change.html'
 
     # TODO: а нафик я форму делал, а потом беру дату из поста 
@@ -64,18 +64,18 @@ class UserChangePassword(generic.FormView):
         new_password_repeat = request.POST.get('password_repeat', None)
         if not new_password == new_password_repeat:
             success = False
-            return HttpResponseRedirect(reverse('invalid'))
+            return HttpResponseRedirect(reverse('users:invalid'))
         user = authenticate(
             email=self.request.user.email,
             password=old_password)
         if user is None:
             success = False
-            return HttpResponseRedirect(reverse('invalid'))
+            return HttpResponseRedirect(reverse('users:invalid'))
         elif success:
             user.set_password(new_password)
             user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse('profile'))
+            return HttpResponseRedirect(reverse('users:profile'))
 
 # TODO: Вот ето дропнуть, как только жсон
 class InvalidView(generic.View):
@@ -87,9 +87,9 @@ class InvalidView(generic.View):
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
+# TODO: Норм логаут сделать!!
 # Тут точно нужен комментарий?
 class LogoutView(generic.View):
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect(reverse('login'))
-        
+        return HttpResponseRedirect(reverse('users:login'))
