@@ -5,6 +5,7 @@ from django.utils import timezone
 from apps.users.managers import CustomUserManager
 
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     """Пользователи"""
     username = models.CharField('Логин', unique=True, max_length=255)
@@ -19,3 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"

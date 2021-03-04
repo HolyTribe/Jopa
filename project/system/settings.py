@@ -116,3 +116,5 @@ else:
     STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_ROOT = BASE_DIR / ".." / "media"
+# Пока что будет писать в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
