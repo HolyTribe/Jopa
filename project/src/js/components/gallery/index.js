@@ -22,20 +22,19 @@ let images = [
     'https://www.teahub.io/photos/full/98-987456_photo-wallpaper-look-girl-hand-anime-art-squints.jpg',
     'https://img4.goodfon.ru/wallpaper/nbig/9/91/girl-owl-birds-hair-bows-pointy-ears-glasses-hair-ornament-s.jpg',
     'https://c.wallhere.com/photos/fb/a1/anime_anime_girls_digital_art_artwork_2D_portrait_display_vertical-1869933.jpg!d'
-
-]
+];
 
 let container = document.querySelector('.grid');
 images = images.sort(() => {
     return Math.random() - 0.5;
-})
+});
 
-function create(begin, end) {
-    images.slice(begin, end).forEach(img => {
+function create() {
+    images.forEach(img => {
         let image = document.createElement('img');
         image.src = img;
         container.appendChild(image);
-    })
+    });
     document.querySelectorAll('img').forEach(img => {
         setTimeout(() => {
             let parent = img.closest('figure');
@@ -54,7 +53,7 @@ function create(begin, end) {
 }
 
 window.create = create;
-window.create(0, images.length);
+window.create();
 
 export default function galleryInit() {
     return true
