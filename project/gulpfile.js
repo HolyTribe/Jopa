@@ -4,13 +4,11 @@ const replace = require('gulp-replace');
 
 //Помощь при разработке
 //Обновляет браузер, позволяет открывать проект на мобилке
-const browserSync = require('browser-sync').create();
+// const browserSync = require('browser-sync').create();
 
 const header = require('gulp-header');
 
 //JS
-//Поддержка стрелочных функций
-const babel = require('gulp-babel');
 
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
@@ -49,7 +47,7 @@ function cssTask(done) {
             outputStyle: 'compressed', //Сжимаем
             errorLogToConsole: true, //Вывод ошибок
         }))
-        .on('error', console.log.bind(console)) //привязка к консоли ( списал хз как воркает )
+        .on('error', console.log.bind(console)) //привязка к консоли
         .pipe(autoprefixer({overrideBrowserslist: ['last 2 versions'], cascade: false})) //Ставит автопрефиксы
         .pipe(gulp.dest('static/css/pages/')) // Помещаем в данную папку
     done()
@@ -57,10 +55,10 @@ function cssTask(done) {
 
 //Слушатель событий
 function watchTask(done) {
-    browsersync(done);
+    // browsersync(done);
     gulp.watch('src/css/**/*.scss', cssTask); //Вызывает функцию cssTask, если scss файл изменился
     gulp.watch('src/js/**/*.js', jsTask); //Вызывает функцию js, если js файл изменился
-    gulp.watch('**/*.{scss,js,html}').on('change', browserSync.reload); //Смотрим изменения и перезагружаем браузер
+    // gulp.watch('**/*.{scss,js,html}').on('change', browserSync.reload); //Смотрим изменения и перезагружаем браузер
     done()
 }
 
@@ -78,16 +76,17 @@ function jsTask(done) {
             module: {
                 rules: [
                     {
-                       use: {
-							loader: 'babel-loader',
-							options: {
-								presets: ['@babel/preset-env'],
-								plugins: [
-								    '@babel/plugin-proposal-class-properties',
-                                    '@babel/plugin-transform-runtime'
+                        exclude: /node_modules/, //runtime ищет не там где надо
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env'],
+                                plugins: [
+                                    ['@babel/plugin-proposal-class-properties'],
+                                    ['@babel/plugin-transform-runtime'],
                                 ]
-							}
-						}
+                            }
+                        }
                     },
                 ],
             },
