@@ -1,5 +1,4 @@
 from apps.commons.models import ImageModel
-from apps.commons.utils import is_ajax
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from django.views.generic.edit import ProcessFormView
@@ -10,7 +9,7 @@ class IndexView(ProcessFormView, TemplateView):
 
     def post(self, request, *args, **kwargs):
         response = {}
-        if is_ajax(request):
+        if request.is_ajax():
             images = []
             for image in ImageModel.objects.iterator():
                 images += [{'url': image.image.url, 'alt': image.alt, 'height': image.image.height,
