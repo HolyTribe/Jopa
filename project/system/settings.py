@@ -18,7 +18,13 @@ INSTALLED_APPS = [
 
     # Django apps
     'apps.commons',
+    'apps.tags',
     'apps.users',
+    'apps.pages',
+
+    # Other apps
+    'sorl.thumbnail',
+
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -38,7 +44,7 @@ AUTH_USER_MODEL = 'users.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,13 +99,10 @@ USE_TZ = False
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-STATIC_ROOT = BASE_DIR / "static"
-MEDIA_ROOT = BASE_DIR / ".." / "media"
-STATICFILES_DIRS = [
-    BASE_DIR / "assets",
-]
-
 if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
     INSTALLED_APPS += [
         'debug_toolbar',
     ]
@@ -108,6 +111,14 @@ if DEBUG:
     INTERNAL_IPS = [
         '127.0.0.1',
     ]
+<<<<<<< HEAD
 
 # Пока что будет писать в консоль
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+=======
+else:
+    # Работает ток на проде
+    STATIC_ROOT = BASE_DIR / "static"
+
+MEDIA_ROOT = BASE_DIR / ".." / "media"
+>>>>>>> 682fd79b16d22152b5d3c15b390a51ae44bebb70

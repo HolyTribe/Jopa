@@ -5,8 +5,6 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
 #TODO:Сделать ответы жсоном
-# После того, как поставят галп
-# А еще, я пойму, что ето ваще такое да
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -47,10 +45,8 @@ class Profile(LoginRequiredMixin, generic.View):
 
 
 class UserChangePassword(generic.FormView):
-    '''Смена пароля кароче,
+    '''Смена пароля,
     главное не забыть, что я сделал форму, а дата из поста.
-    На самом деле, какая разница,
-    правда?)))))))))))))))))))
     '''
     form_class = PasswordResetForm
     success_url = reverse_lazy('users:profile')
@@ -88,7 +84,6 @@ class InvalidView(generic.View):
         return render(request, self.template_name)
 
 # TODO: Норм логаут сделать!!
-# Тут точно нужен комментарий?
 class LogoutView(generic.View):
     def get(self, request):
         logout(request)
