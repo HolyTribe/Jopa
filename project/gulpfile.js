@@ -92,6 +92,9 @@ function jsTask(done) {
             },
         }), webpack)
         .pipe(uglify()) //Убираем переносы
+        .on('error', function () {
+            this.emit('end');
+        })
         .pipe(gulp.dest('static/js/pages/'))
     done()
 }
