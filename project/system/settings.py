@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'apps.tags',
     'apps.users',
     'apps.pages',
+    'apps.seo',
+    'apps.settings',
 
     # Other apps
     'sorl.thumbnail',

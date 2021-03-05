@@ -4,7 +4,7 @@ const replace = require('gulp-replace');
 
 //Помощь при разработке
 //Обновляет браузер, позволяет открывать проект на мобилке
-// const browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
 
 const header = require('gulp-header');
 
@@ -55,10 +55,10 @@ function cssTask(done) {
 
 //Слушатель событий
 function watchTask(done) {
-    // browsersync(done);
+    browsersync(done);
     gulp.watch('src/css/**/*.scss', cssTask); //Вызывает функцию cssTask, если scss файл изменился
     gulp.watch('src/js/**/*.js', jsTask); //Вызывает функцию js, если js файл изменился
-    // gulp.watch('**/*.{scss,js,html}').on('change', browserSync.reload); //Смотрим изменения и перезагружаем браузер
+    gulp.watch('**/*.{scss,js,html}').on('change', browserSync.reload); //Смотрим изменения и перезагружаем браузер
     done()
 }
 

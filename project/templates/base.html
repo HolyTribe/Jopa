@@ -1,9 +1,11 @@
-{% load static %}
+{% load static seo %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    {% get_page_info as page_info %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ page_info.meta_title }}</title>
+     <meta name="description" content="{{ page_info.meta_description }}">
     {% block style %}
     {% endblock %}
 </head>
