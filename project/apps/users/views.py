@@ -7,6 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from apps.users.forms import LoginForm, PasswordChangeForm
+from apps.users.models import User
 
 
 class Login(generic.FormView):
@@ -29,13 +30,11 @@ class Login(generic.FormView):
         return HttpResponseRedirect(reverse('users:invalid'))
 
 
-class Profile(LoginRequiredMixin, generic.View):
+class Profile(LoginRequiredMixin, generic.DetailView):
     """Личный кабинет"""
     login_url = reverse_lazy('users:login')
     template_name = 'users/profile.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    model = User
 
 
 class UserChangePassword(generic.FormView):

@@ -14,7 +14,7 @@ from apps.users.views import Login, Profile, InvalidView, UserChangePassword
 app_name = "users"
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
-    path('profile/', Profile.as_view(), name='profile'),
+    path('profile/<pk>/', Profile.as_view(), name='profile'),
     # TODO: ДРОПНУТЬ!!!!!!
     path('invalid/', InvalidView.as_view(), name='invalid'),
     path('profile/password-change/',
