@@ -1,6 +1,3 @@
-from django.urls import include, path
-from apps.users.views import Login, Profile, InvalidView, UserChangePassword
-from apps.users.forms import PasswordChangeForm
 from django.contrib.auth.views import (
     LogoutView,
     PasswordResetView,
@@ -9,8 +6,10 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordChangeView,
 )
+from django.urls import path
 from django.urls import reverse_lazy
 
+from apps.users.views import Login, Profile, InvalidView, UserChangePassword
 
 app_name = "users"
 urlpatterns = [
@@ -19,22 +18,22 @@ urlpatterns = [
     # TODO: ДРОПНУТЬ!!!!!!
     path('invalid/', InvalidView.as_view(), name='invalid'),
     path('profile/password-change/',
-        UserChangePassword.as_view(),
-        name='password-change'),
+         UserChangePassword.as_view(),
+         name='password-change'),
     path('logout', LogoutView.as_view(
         template_name='registration/logout.html'
     ), name='logout'),
     # Ресет пароля
     path('password/reset/',
-        PasswordResetView.as_view(
-            email_template_name='registration/password_reset_email.html', 
-            success_url=reverse_lazy('users:password_reset_done')),
-            name='password_reset'),
+         PasswordResetView.as_view(
+             email_template_name='registration/password_reset_email.html',
+             success_url=reverse_lazy('users:password_reset_done')),
+         name='password_reset'),
     path("password/change/",
-        PasswordChangeView.as_view(
-            success_url='/users/password/change/',
-            template_name='users/change_password.html'),
-        name="password_change"),
+         PasswordChangeView.as_view(
+             success_url='/users/password/change/',
+             template_name='users/change_password.html'),
+         name="password_change"),
     path(
         "password/reset/done/",
         PasswordResetDoneView.as_view(),
@@ -48,10 +47,10 @@ urlpatterns = [
             # Все еще не смог понять, в чем дело, оставил пока что просто шаблон
             template_name='registration/password_reset_confirm.html',
             success_url=reverse_lazy('users:password_reset_complete')
-            ),
+        ),
         name="password_reset_confirm"),
     path(
         "password/done/",
         PasswordResetCompleteView.as_view(),
-        name="password_reset_complete"),    
+        name="password_reset_complete"),
 ]
