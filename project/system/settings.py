@@ -102,6 +102,8 @@ STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
 if DEBUG:
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)
     STATICFILES_DIRS = [
         BASE_DIR / 'static'
     ]
