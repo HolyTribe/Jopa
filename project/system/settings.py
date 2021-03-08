@@ -112,8 +112,6 @@ if DEBUG:
     ]
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     
-    import mimetypes
-    mimetypes.add_type("application/javascript", ".js", True)
     INTERNAL_IPS = [
         '127.0.0.1',
     ]

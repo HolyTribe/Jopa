@@ -64,7 +64,8 @@ function watchTask(done) {
 
 function jsTask(done) {
     gulp.src([
-        'src/js/pages/*.js'
+        'src/js/pages/*.js',
+        'src/js/tags/*.js'
     ])
         .pipe(named()) //Сохраняем название точек
         .pipe(webpackStream({

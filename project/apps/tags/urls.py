@@ -5,4 +5,5 @@ app_name = 'tags'
 
 urlpatterns = [
     path('create/', views.TagCreateView.as_view(), name='create'),
+    path('search/', views.TagSearch.as_view(), name='search')
 ]
