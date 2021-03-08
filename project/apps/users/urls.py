@@ -9,12 +9,12 @@ from django.contrib.auth.views import (
 from django.urls import path
 from django.urls import reverse_lazy
 
-from apps.users.views import Login, Profile, InvalidView, UserChangePassword
+from apps.users.views import Login, ProfileDetailView, InvalidView, UserChangePassword
 
 app_name = "users"
 urlpatterns = [
     path('login/', Login.as_view(), name='login'),
-    path('profile/<pk>/', Profile.as_view(), name='profile'),
+    path('profile/<pk>/', ProfileDetailView.as_view(), name='profile'),
     # TODO: ДРОПНУТЬ!!!!!!
     path('invalid/', InvalidView.as_view(), name='invalid'),
     path('profile/password-change/',
@@ -52,5 +52,6 @@ urlpatterns = [
     path(
         "password/done/",
         PasswordResetCompleteView.as_view(),
-        name="password_reset_complete"),
+        name="password_reset_complete"
+    ),
 ]

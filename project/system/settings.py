@@ -26,7 +26,6 @@ INSTALLED_APPS = [
 
     # Other apps
     'sorl.thumbnail',
-
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,18 +101,19 @@ STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
 if DEBUG:
-    import mimetypes
-    mimetypes.add_type("application/javascript", ".js", True)
     STATICFILES_DIRS = [
         BASE_DIR / 'static'
     ]
     INSTALLED_APPS += [
         'debug_toolbar',
     ]
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-    
+    MIDDLEWARE.insert(1, 'debug_toolbar_force.middleware.ForceDebugToolbarMiddleware')
+
+    import mimetypes
+    mimetypes.add_type("application/javascript", ".js", True)
     INTERNAL_IPS = [
         '127.0.0.1',
+        'localhost'
     ]
 else:
     # Работает ток на проде

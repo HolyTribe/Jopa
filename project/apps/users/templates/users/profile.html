@@ -1,5 +1,15 @@
 {% block content %}
     <h1>Ура вы в жопе</h1>
+    <p>Ваше имя профиля - {{ profile.user.username }}</p>
+    <p>
+        Ваша ава: <br>
+        <img src="{{ profile.avatar.url }}" style="width: 400px; height: auto; border: 1px solid #000" alt="">
+    </p>
+    <h4>Ваш изображения</h4>
+    {% for image in profile.get_all_images %}
+        <img src="{{ image.image.url }}" style="width: 600px; height: auto;" alt="">
+    {% endfor %}
+
     <a href="{% url 'users:password-change' %}" >Сменить парольчик</a>
     
     <a href="{% url 'users:logout' %}" class="" style='color:red; font-size:20px;display:block;text-decoration:none;font-weight:600'>Выход</a>
