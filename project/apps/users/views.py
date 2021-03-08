@@ -30,11 +30,15 @@ class Login(generic.FormView):
         return HttpResponseRedirect(reverse('users:invalid'))
 
 
-class Profile(LoginRequiredMixin, generic.DetailView):
+class ProfileDetailView(generic.DetailView):
     """Личный кабинет"""
-    login_url = reverse_lazy('users:login')
     template_name = 'users/profile.html'
     model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = self.get_object().profile.first()
+        return context
 
 
 class UserChangePassword(generic.FormView):
