@@ -5,14 +5,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import generic
-
+from django.http import JsonResponse
 from apps.users.forms import LoginForm, PasswordChangeForm
 from apps.users.models import User
 
 
 class Login(generic.FormView):
-    """Да ето вьюха для логина а што
-    """
+    """Обработчик логина"""
     form_class = LoginForm
     template_name = 'users/login.html'
 
@@ -22,12 +21,12 @@ class Login(generic.FormView):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(self.request, user)
-            return HttpResponseRedirect(reverse('users:profile'))
+            return JsonResponse({'errors':False, 'redirect':'http://127.0.0.1:8000/account/profile/5'})
         else:
-            return HttpResponseRedirect(reverse('users:invalid'))
+            return JsonResponse({'errors':True, 'message':'Учетная запись не валидна'})
 
     def form_invalid(self, form):
-        return HttpResponseRedirect(reverse('users:invalid'))
+        return JsonResponse({'errors':True, 'fields':form.errors, 'message':"Проверьте указанные поля"})
 
 
 class ProfileDetailView(generic.DetailView):
@@ -42,11 +41,9 @@ class ProfileDetailView(generic.DetailView):
 
 
 class UserChangePassword(generic.FormView):
-    """Смена пароля,
-    главное не забыть, что я сделал форму, а дата из поста.
-    """
+    """Смена пароля, если юзер авторизован"""
     form_class = PasswordChangeForm
-    success_url = reverse_lazy('users:profile')
+    success_url = reverse_lazy('users:login')
     template_name = 'users/password_change.html'
 
     def form_valid(self, form):
@@ -57,26 +54,18 @@ class UserChangePassword(generic.FormView):
         new_password_repeat = form.cleaned_data['password_repeat']
         if not new_password == new_password_repeat:
             success = False
-            return HttpResponseRedirect(reverse('users:invalid'))
+            return JsonResponse({'errors':True, 'fields':form.errors})
         user = authenticate(
             username=self.request.user.username,
             password=old_password)
         if user is None:
             success = False
-            return HttpResponseRedirect(reverse('users:invalid'))
+            return JsonResponse({'errors':True, 'fields':"Что-то пошло не так, пользователя не существует!"})
         elif success:
             user.set_password(new_password)
             user.save()
             login(self.request, user)
             return HttpResponseRedirect(reverse('users:profile'))
 
-
-# TODO: Дропнуть, после жсонреспонсов
-class InvalidView(generic.View):
-    """Эта вьюха, чтобы выкидывать ошибку,
-    пока я не понял как работает галп
-    """
-    template_name = 'users/invalid.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    def form_invalid(self, form):
+        return JsonResponse({'errors': True, 'fields':form.errors})

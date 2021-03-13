@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'apps.settings',
 
     # Other apps
+    # 'sendmail.apps.SendingmailConfig',
     'sorl.thumbnail',
 ]
 MIDDLEWARE = [
