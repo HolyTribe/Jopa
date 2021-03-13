@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'apps.settings',
 
     # Other apps
+    # 'sendmail.apps.SendingmailConfig',
     'sorl.thumbnail',
 ]
 MIDDLEWARE = [
@@ -107,7 +108,6 @@ if DEBUG:
     INSTALLED_APPS += [
         'debug_toolbar',
     ]
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     MIDDLEWARE.insert(1, 'debug_toolbar_force.middleware.ForceDebugToolbarMiddleware')
 
     import mimetypes

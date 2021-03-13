@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.users.models import User, Profile, ProfileGallery
+from apps.users.models import User, Profile, ProfileGallery, Offer
 from apps.commons.admin import site
 
 
@@ -26,3 +26,14 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(ProfileGallery, site=site)
 class ProfileGallery(admin.ModelAdmin):
     pass
+
+@admin.register(Offer, site=site)
+class OfferAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'user']
+    list_display = ['title', 'user', 'likes']
+
+    def likes(self, obj):
+        return obj.total_likes
+    
+    likes.short_description = 'Кол-во лайков'
+    likes.admin_order_field = 'number_of_offers_done'

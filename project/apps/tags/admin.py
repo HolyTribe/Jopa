@@ -6,4 +6,4 @@ from apps.tags.models import Tag
 
 @admin.register(Tag, site=site)
 class TagAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {"slug": ("title",)}

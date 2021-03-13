@@ -6,10 +6,18 @@
 {% endblock %}
 
 {% block content %}
+    <div class="tag-search">
+        <form action="{% url 'tags:search' %}" class="tags-search-form">
+            {% csrf_token %}
+            <input type="text" name="search" placeholder="Поиск по тегам" class="search-input" autocomplete="off">
+            <ul id="tag-search__dropdown"></ul>
+        </form>
+    </div>
     <div class="grid">
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static 'js/pages/index.js' %}"></script>
+    <script src="{% static 'js/pages/tags.js' %}"></script>
 {% endblock %}

@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <form action="" method="post">
+    <form action="{% url 'users:login' %}" method="post">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Логин</button> <a href="{% url 'users:password_reset' %}" class="">Забыли пароль?</a>
+        <button type="submit" class='login-btn'>Логин</button> <a href="{% url 'users:password_reset' %}" class="">Забыли пароль?</a>
     </form>
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/pages/users.js' %}"></script>
+{% endblock scripts %}
